@@ -2,13 +2,15 @@ import { useState } from 'react';
 import CarItem from './car-item/CarItem.jsx';
 import { cars as carsData } from './cars.data.js';
 import CreateCarForm from './create-car-form/CreateCarForm.jsx';
+import VideoPlayer from './Player.jsx';
 
 const Home = () => {
   const [cars, setCars] = useState(carsData);
-  console.log(carsData);
+
   return (
     <div>
       <h1>Cars catalog</h1>
+      <VideoPlayer />
       <CreateCarForm setCars={setCars} />
       <div>
         {cars.length ? (
