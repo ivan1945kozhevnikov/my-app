@@ -1,10 +1,10 @@
-import React from 'react';
 import { useParams } from 'react-router-dom';
+import { withAuth } from '../../../HOC/withAuth';
 
 const CarDetail = () => {
-const {id} = useParams()
+  const { id } = useParams();
 
   return <div>CarDetail {id}</div>;
 };
 
-export default CarDetail;
+export default withAuth(CarDetail);

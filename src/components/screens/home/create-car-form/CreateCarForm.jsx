@@ -1,62 +1,42 @@
-import { useState } from 'react';
 import styles from './CreateCarForm.module.css';
-
-const clearData = {
-  price: '',
-  name: '',
-  image: '',
-};
+import { useForm } from 'react-hook-form';
 
 const CreateCarForm = ({ setCars }) => {
-  const [data, setData] = useState({
-    price: '',
-    name: '',
-    image: '',
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    made: 'onChange',
   });
 
-  const createCar = (e) => {
-    e.preventDefault();
+  const createCar = ({ data }) => {
+    console.log(data);
 
     setCars((prev) => [...prev, { id: prev.length + 1, ...data }]);
-    setData(clearData);
+    reset();
   };
 
   return (
-    <form className={styles.form}>
+    <form className={styles.form} onSubmit={handleSubmit(createCar)}>
       <input
+        {...register('name', { required: 'Name is required!' })}
         placeholder="Name"
-        onChange={(e) =>
-          setData((prev) => ({
-            ...prev,
-            name: e.target.value,
-          }))
-        }
-        value={data.name}
       />
-      <input
-        placeholder="Price"
-        onChange={(e) =>
-          setData((prev) => ({
-            ...prev,
-            price: e.target.value,
-          }))
-        }
-        value={data.price}
-      />
-      <input
-        placeholder="image"
-        onChange={(e) =>
-          setData((prev) => ({
-            ...prev,
-            image: e.target.value,
-          }))
-        }
-        value={data.image}
-      />
+      {errors?.name?.message && (
+        <p
+          style={{
+            color: 'red',
+          }}
+        >
+          Name is required
+        </p>
+      )}
+      <input {...register('price', { required: true })} placeholder="Price" />
+      <input {...register('image', { required: true })} placeholder="image" />
 
-      <button className="btn" onClick={(e) => createCar(e)}>
-        Create
-      </button>
+      <button className="btn">Create</button>
     </form>
   );
 };
